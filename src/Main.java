@@ -5,6 +5,7 @@ public class Main {
         String studentName = "John Smith";
         double[] grades = {85.5, 92.0, 78.5, 90.0};
 
+
         double average = calculator.calculateAverage(grades);
 
 
@@ -15,4 +16,3 @@ public class Main {
         calculator.displayResult(studentName, average, letterGrade);
     }
 }
-
