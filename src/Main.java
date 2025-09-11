@@ -1,87 +1,78 @@
-public class Main {
-    public static void main(String[] args) {
-        Student student1 = new Student("Rona Caay", 20, "BSIT", 99, 88,75);
-        Student student2 = new Student("Inciso Jm", 22, "Crim", 70.5, 75.0, 65.0);
-        Student student3 = new Student("Fukiko P", 21, "Pharma", 50.0, 55.0, 60.0);
+class FoodItem {
+    private String itemName;
+    private double price;
+    private String size;
 
-
-        Student[] students = {student1, student2, student2};
-        int passingCount = 0;
-
-        for (Student student : students) {
-            System.out.println("\nStudent Information:");
-            student.displayInfo();
-
-            double average = student.calculateAverage();
-            System.out.println("Average Grade: " + average);
-            System.out.println("Letter Grade: " + student.getLetterGrade());
-
-
-            if (student.isPassing()) {
-                System.out.println("Status: PASSING");
-                passingCount++;
-            } else {
-                System.out.println("Status: FAILING");
-            }
+    public FoodItem(String itemName, double price, String size) throws InvalidItemException {
+        if (itemName == null || itemName.isEmpty()) {
+            throw new InvalidItemException("Error: Invalid item: cannot be empty");
         }
-
-
-        System.out.println("\nTotal number of students passing: " + passingCount);
-    }
-}
-class Student {
-    String name;
-    int age;
-    String course;
-    double grade1;
-    double grade2;
-    double grade3;
-
-
-    public Student(String name, int age, String course, double grade1, double grade2, double grade3) {
-        this.name = name;
-        this.age = age;
-        this.course = course;
-        this.grade1 = grade1;
-        this.grade2 = grade2;
-        this.grade3 = grade3;
-    }
-
-
-    public void displayInfo() {
-        System.out.println("Name: " + name);
-        System.out.println("Age: " + age);
-        System.out.println("Course: " + course);
-    }
-
-
-    public double calculateAverage() {
-        return (grade1 + grade2 + grade3) / 3;
-    }
-
-
-    public String getLetterGrade() {
-        double average = calculateAverage();
-        if (average >= 90) {
-            return "A";
-        } else if (average >= 80) {
-            return "B";
-        } else if (average >= 70) {
-            return "C";
-        } else if (average >= 60) {
-            return "D";
-        } else {
-            return "F";
+        if (price <= 0) {
+            throw new InvalidItemException("Error: Invalid price: must be greater than 0");
         }
+        this.itemName = itemName;
+        this.price = price;
+        this.size = size;
     }
 
+    public String getItemName() {
+        return itemName;
+    }
 
-    public boolean isPassing() {
-        return calculateAverage() >= 70;
+    public double getPrice() {
+        return price;
+    }
+
+    public String getSize() {
+        return size;
     }
 }
 
-
-        System.out.println("\nTotal number of students passing: " + passingCount);
+class InvalidItemException extends Exception {
+    public InvalidItemException(String message) {
+        super(message);
     }
+}
+
+class FoodOrder {
+    private String customerName;
+    private FoodItem[] items;
+    private double totalPrice;
+
+    public FoodOrder(String customerName, FoodItem[] items) {
+        this.customerName = customerName;
+        this.items = items;
+        calculateTotal();
+    }
+
+    private void calculateTotal() {
+        totalPrice = 0.0;
+        for (FoodItem item : items) {
+            totalPrice += item.getPrice();
+        }
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public int getItemCount() {
+        return items.length;
+    }
+
+    public String getSize() {
+        return items[0].getSize();
+    }
+
+    public void displayOrder() {
+        System.out.println("Order for " + customerName);
+        System.out.println("Total: $" + totalPrice);
+        System.out.println("Items: " + getItemCount());
+        System.out.println("Size: " + getSize());
+    }
+
 }
